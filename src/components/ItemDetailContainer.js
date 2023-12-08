@@ -10,7 +10,7 @@ import { products } from '../data/products';
 
 export const ItemDetailContainer = () => {
 
-        const [item, setItem] = useState(null);
+        const [item, setItems] = useState(null);
 
         const { id }= useParams ();
 
@@ -29,7 +29,7 @@ export const ItemDetailContainer = () => {
 
         }, [id]);
 
-        console.log (items);
+        
 
 
 
