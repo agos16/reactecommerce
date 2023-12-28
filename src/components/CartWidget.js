@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { NavLink } from 'react-router-dom';
 import cart from "../assets/cart.png"
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
@@ -14,11 +14,11 @@ const total = items.reduce(
 );
 
 return (
-    <>
-    <Link to ="/cart">
-        <img src ={cart} alt= "carrito" width = {30} />
-        <span>{total}</span>
-    </Link>
-    </>
+    <div className>
+    <NavLink to="/cart">
+    <img src={cart} alt="Carrito" className/>
+    </NavLink>
+    <span className>{total}</span>
+    </div>
 );
 };

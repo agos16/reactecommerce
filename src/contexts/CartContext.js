@@ -1,37 +1,52 @@
-import { createContext } from "react";
-import React, { useState } from "react";
+import { createContext, useState } from "react";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-const [items, setItems] = useState([]);
+    const [items, setItems] = useState([]);
 
-const clear = () => setItems([]);
+    const clear = () => setItems([]);
 
-const onAdd = (item, quantity) => {
-    const exists = items.some((i) => i.id === item.id);
-    if (exists) {
-const newElements = items.map((i) => {
-        if (i.id === item.id) {
-        return {
-            ...i,
-            quantity: i.quantity + quantity,
-        };
+    const onRemove = (id) => {
+        const filterItems = items.filter((item) => item.id !== id);
+        setItems(filterItems);
+    };
+
+    const onAdd = (item, quantity) => {
+        const exists = items.some((i) => i.id === item.id);
+
+        if (exists) {
+            const updatedItems = items.map((i) =>
+                i.id === item.id ? { ...i, quantity: i.quantity + quantity } : i
+            );
+            setItems(updatedItems);
         } else {
-        return i;
+            setItems((prev) => [...prev, { ...item, quantity }]);
         }
-    });
-    setItems(newElements);
-    } else {
-    setItems((prev) => {
-        return [...prev, { ...item, quantity }];
-    });
-    }
-};
+    };
 
-const onRemove = (id) => {
-    setItems(prev => prev.filter(item => item.id != id))
-}
+    const onIncrement = (id) => {
+        const item = items.find((i) => i.id === id);
+    
+        if (item && item.quantity < item.stock) {
+            const updatedItems = items.map((i) =>
+                i.id === id ? { ...i, quantity: i.quantity + 1 } : i
+            );
+            setItems(updatedItems);
+        }
+    };
+    
 
-return <CartContext.Provider value={{items, onAdd, clear, onRemove}}>{children}</CartContext.Provider>;
+    const onDecrement = (id) => {
+        const updatedItems = items.map((item) =>
+            item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+        );
+        setItems(updatedItems);
+    };
+
+    return (
+        <CartContext.Provider value={{ items, clear, onAdd, onRemove, onIncrement, onDecrement }}>
+            {children}
+        </CartContext.Provider>
+    );
 };

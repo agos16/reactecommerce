@@ -9,6 +9,8 @@ import { ItemDetailContainer } from "./components/ItemDetailContainer";
 import { CartProvider } from "./contexts/CartContext";
 
 
+
+
 function App (){
   return ( <CartProvider>
   <BrowserRouter> 
@@ -17,7 +19,6 @@ function App (){
       <Route path = "/" element={<ItemListContainer greeting ="Bienvenidos"/>}/>
       <Route path = "/category/:id" element={<ItemListContainer greeting ="Bienvenidos"/>}/>
       <Route path = "/items/:id" element={<ItemDetailContainer greeting ="Bienvenidos"/>}/>
-
     </Routes>
   
   
